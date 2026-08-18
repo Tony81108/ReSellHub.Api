@@ -1,0 +1,74 @@
+@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "二手好物商城";
+    var activeFilter = (string?)ViewBag.Filter ?? "all";
+    var activeCategoryId = (int?)ViewBag.CategoryId;
+}
+
+<section class="market-hero">
+    <div>
+        <span class="hero-tag">ReSell 精選</span>
+        <h1>好物不浪費，輕鬆找到下一位主人</h1>
+        <p>探索價格實惠的二手商品，讓每一次購買都更有價值。</p>
+    </div>
+    <div class="hero-art"><span>♻</span><strong>二手新生活</strong></div>
+</section>
+
+<div class="market-layout">
+    <aside class="filter-sidebar">
+        <div class="sidebar-title"><span>☰</span> 商品篩選</div>
+        <nav class="filter-nav">
+            <a class="@(activeFilter == "all" ? "active" : "")" asp-action="Index" asp-route-keyword="@ViewBag.Keyword" asp-route-filter="all">全部商品</a>
+            <a class="@(activeFilter == "in-stock" ? "active" : "")" asp-action="Index" asp-route-keyword="@ViewBag.Keyword" asp-route-filter="in-stock">有庫存商品</a>
+            <div class="filter-divider"></div>
+            <p>商品分類</p>
+            @foreach (Category category in ViewBag.Categories)
+            {
+                <a class="@(activeCategoryId == category.Id ? "active" : "")" asp-action="Index" asp-route-keyword="@ViewBag.Keyword" asp-route-categoryId="@category.Id">@category.Icon @category.Name</a>
+            }
+            <div class="filter-divider"></div>
+            <p>價格範圍</p>
+            <a class="@(activeFilter == "under-500" ? "active" : "")" asp-action="Index" asp-route-keyword="@ViewBag.Keyword" asp-route-filter="under-500">NT$500 以下</a>
+            <a class="@(activeFilter == "500-1500" ? "active" : "")" asp-action="Index" asp-route-keyword="@ViewBag.Keyword" asp-route-filter="500-1500">NT$500～1,500</a>
+            <a class="@(activeFilter == "over-1500" ? "active" : "")" asp-action="Index" asp-route-keyword="@ViewBag.Keyword" asp-route-filter="over-1500">NT$1,500 以上</a>
+        </nav>
+        <a class="seller-entry" asp-controller="ProductManagement" asp-action="Index"><span>🏪</span><strong>我是賣家</strong><small>管理商品與庫存</small></a>
+    </aside>
+
+    <section class="product-area">
+        <div class="product-toolbar">
+            <div><strong>商城商品</strong><span>找到 @ViewBag.TotalCount 件商品</span></div>
+            @if (!string.IsNullOrWhiteSpace((string?)ViewBag.Keyword))
+            {
+                <a asp-action="Index" asp-route-filter="@activeFilter">清除搜尋 ×</a>
+            }
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="market-empty"><span>🔎</span><h2>找不到符合條件的商品</h2><p>試著更換搜尋文字或其他篩選條件。</p><a class="market-button" asp-action="Index">查看全部商品</a></div>
+        }
+        else
+        {
+            <div class="product-grid">
+                @foreach (var item in Model)
+                {
+                    var soldOut = item.StockQuantity <= 0;
+                    <article class="product-card">
+                        <a class="product-image" asp-action="Details" asp-route-id="@item.Id" style="@(string.IsNullOrWhiteSpace(item.CoverImageUrl) ? "" : $"background-image:url('{item.CoverImageUrl}');background-size:cover;background-position:center;")">
+                            @if (string.IsNullOrWhiteSpace(item.CoverImageUrl)) { <span class="product-emoji">@(item.Category?.Icon ?? "📦")</span> }
+                            <span class="used-badge">@item.Condition</span>
+                            @if (soldOut) { <span class="soldout-cover">已售完</span> }
+                        </a>
+                        <div class="product-card-body">
+                            <a class="product-name" asp-action="Details" asp-route-id="@item.Id">@item.Name</a>
+                            <div class="product-category">@(item.Category?.Name ?? "其他好物")</div>
+                            <div class="product-price"><small>NT$</small>@item.SellingPrice.ToString("N0")</div>
+                            <div class="product-meta"><span>庫存 @item.StockQuantity</span><span>♡ 收藏</span></div>
+                        </div>
+                    </article>
+                }
+            </div>
+        }
+    </section>
+</div>

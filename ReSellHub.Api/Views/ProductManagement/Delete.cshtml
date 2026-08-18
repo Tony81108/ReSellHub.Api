@@ -1,0 +1,24 @@
+@model Product
+@{
+    ViewData["Title"] = "刪除商品";
+}
+
+<div class="narrow-page">
+    <a class="back-link" asp-action="Index">← 返回商品列表</a>
+    <div class="form-card danger-card">
+        <div class="danger-icon">!</div>
+        <h1>確定要刪除商品？</h1>
+        <p>「<strong>@Model.Name</strong>」刪除後無法復原。</p>
+        <dl class="details-grid compact">
+            <div><dt>售價</dt><dd>NT$ @Model.SellingPrice.ToString("N0")</dd></div>
+            <div><dt>庫存</dt><dd>@Model.StockQuantity</dd></div>
+        </dl>
+        <form asp-action="Delete" method="post">
+            <input asp-for="Id" type="hidden" />
+            <div class="form-actions">
+                <a class="button secondary" asp-action="Index">取消</a>
+                <button class="button danger" type="submit">確認刪除</button>
+            </div>
+        </form>
+    </div>
+</div>

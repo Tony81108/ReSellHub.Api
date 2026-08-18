@@ -1,0 +1,23 @@
+@model Product
+@{
+    ViewData["Title"] = "商品詳細資料";
+}
+
+<div class="narrow-page">
+    <a class="back-link" asp-action="Index">← 返回商品列表</a>
+    <div class="form-card">
+        <div class="detail-heading">
+            <div><p class="eyebrow">商品 #@Model.Id</p><h1>@Model.Name</h1></div>
+            <span class="stock">庫存 @Model.StockQuantity</span>
+        </div>
+        <dl class="details-grid">
+            <div><dt>成本</dt><dd>NT$ @Model.CostPrice.ToString("N0")</dd></div>
+            <div><dt>售價</dt><dd class="price">NT$ @Model.SellingPrice.ToString("N0")</dd></div>
+            <div><dt>預估毛利</dt><dd>NT$ @((Model.SellingPrice - Model.CostPrice).ToString("N0"))</dd></div>
+        </dl>
+        <div class="form-actions">
+            <a class="button secondary" asp-action="Index">返回</a>
+            <a class="button primary" asp-action="Edit" asp-route-id="@Model.Id">編輯商品</a>
+        </div>
+    </div>
+</div>

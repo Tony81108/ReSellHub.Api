@@ -1,0 +1,33 @@
+@model Product
+@{
+    ViewData["Title"] = Model.Name;
+    var soldOut = Model.StockQuantity <= 0;
+}
+
+<div class="breadcrumb"><a asp-action="Index">商城首頁</a><span>›</span><span>@Model.Name</span></div>
+
+<section class="shop-detail-card">
+    <div class="shop-detail-image" style="@(string.IsNullOrWhiteSpace(Model.CoverImageUrl) ? "" : $"background-image:url('{Model.CoverImageUrl}');background-size:cover;background-position:center;")">
+        @if (string.IsNullOrWhiteSpace(Model.CoverImageUrl)) { <span>@(Model.Category?.Icon ?? "📦")</span> }
+        <div>@Model.Condition</div>
+    </div>
+    <div class="shop-detail-content">
+        <div class="detail-condition">@(Model.Category?.Name ?? "安心二手商品")</div>
+        <h1>@Model.Name</h1>
+        <div class="rating-row"><strong>5.0</strong><span>★★★★★</span><i></i><span>商品編號 #@Model.Id</span></div>
+        <div class="shop-price"><small>NT$</small>@Model.SellingPrice.ToString("N0")</div>
+        <div class="shop-info-row"><span>運送</span><strong>🚚 免運活動適用</strong></div>
+        <div class="shop-info-row"><span>商品狀況</span><strong>@Model.Condition</strong></div>
+        <div class="shop-info-row"><span>庫存</span><strong>@Model.StockQuantity 件</strong></div>
+        <div class="purchase-actions">
+            <button class="outline-cart" type="button" disabled="@soldOut">🛒 加入購物車</button>
+            <button class="buy-now" type="button" disabled="@soldOut">@(soldOut ? "商品已售完" : "直接購買")</button>
+        </div>
+        <p class="prototype-note">目前為商城介面展示，下一階段可串接購物車與訂單功能。</p>
+    </div>
+</section>
+
+<section class="shop-description">
+    <h2>商品詳情</h2>
+    <p>@(string.IsNullOrWhiteSpace(Model.Description) ? "這是由 ReSellHub 賣家刊登的二手商品。購買前請確認商品名稱、價格與庫存資訊。" : Model.Description)</p>
+</section>

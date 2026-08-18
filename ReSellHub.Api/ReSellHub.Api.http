@@ -1,0 +1,23 @@
+@ReSellHub.Api_HostAddress = http://localhost:5075
+
+GET {{ReSellHub.Api_HostAddress}}/api/products
+Accept: application/json
+
+###
+
+GET {{ReSellHub.Api_HostAddress}}/api/products/1
+Accept: application/json
+
+###
+
+POST {{ReSellHub.Api_HostAddress}}/api/products
+Content-Type: application/json
+
+{
+  "name": "測試商品",
+  "costPrice": 100,
+  "sellingPrice": 150,
+  "stockQuantity": 1
+}
+
+###

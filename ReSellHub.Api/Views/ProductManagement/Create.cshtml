@@ -1,0 +1,19 @@
+@model Product
+@{
+    ViewData["Title"] = "新增商品";
+}
+
+<div class="narrow-page">
+    <a class="back-link" asp-action="Index">← 返回商品列表</a>
+    <div class="form-card">
+        <h1>新增商品</h1>
+        <p class="muted">輸入商品的基本販售資訊。</p>
+        <form asp-action="Create" method="post">
+            <partial name="_ProductForm" model="Model" />
+            <div class="form-actions">
+                <a class="button secondary" asp-action="Index">取消</a>
+                <button class="button primary" type="submit">儲存商品</button>
+            </div>
+        </form>
+    </div>
+</div>

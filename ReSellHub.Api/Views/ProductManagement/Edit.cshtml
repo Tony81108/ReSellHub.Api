@@ -1,0 +1,20 @@
+@model Product
+@{
+    ViewData["Title"] = "編輯商品";
+}
+
+<div class="narrow-page">
+    <a class="back-link" asp-action="Index">← 返回商品列表</a>
+    <div class="form-card">
+        <h1>編輯商品</h1>
+        <p class="muted">更新商品 #@Model.Id 的資料。</p>
+        <form asp-action="Edit" method="post">
+            <input asp-for="Id" type="hidden" />
+            <partial name="_ProductForm" model="Model" />
+            <div class="form-actions">
+                <a class="button secondary" asp-action="Index">取消</a>
+                <button class="button primary" type="submit">儲存變更</button>
+            </div>
+        </form>
+    </div>
+</div>

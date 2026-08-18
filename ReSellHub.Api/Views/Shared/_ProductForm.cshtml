@@ -1,0 +1,53 @@
+@model Product
+
+<div asp-validation-summary="ModelOnly" class="validation"></div>
+
+<div class="form-group">
+    <label asp-for="CategoryId">商品分類</label>
+    <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control">
+        <option value="">請選擇商品分類</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label asp-for="Name">商品名稱</label>
+    <input asp-for="Name" class="form-control" placeholder="例如：二手無線鍵盤" />
+    <span asp-validation-for="Name" class="validation"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="Condition">商品狀況</label>
+    <select asp-for="Condition" class="form-control">
+        <option>全新未使用</option><option>近全新</option><option>二手良品</option><option>使用痕跡明顯</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label asp-for="CoverImageUrl">封面圖片網址</label>
+    <input asp-for="CoverImageUrl" class="form-control" placeholder="https://...（可稍後再填）" />
+</div>
+
+<div class="form-group">
+    <label asp-for="Description">商品說明</label>
+    <textarea asp-for="Description" class="form-control" rows="5" placeholder="說明商品尺寸、使用狀況、配件及注意事項"></textarea>
+    <span asp-validation-for="Description" class="validation"></span>
+</div>
+
+<div class="form-grid">
+    <div class="form-group">
+        <label asp-for="CostPrice">成本</label>
+        <input asp-for="CostPrice" class="form-control" type="number" min="0" step="0.01" />
+        <span asp-validation-for="CostPrice" class="validation"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="SellingPrice">售價</label>
+        <input asp-for="SellingPrice" class="form-control" type="number" min="0" step="0.01" />
+        <span asp-validation-for="SellingPrice" class="validation"></span>
+    </div>
+</div>
+
+<div class="form-group">
+    <label asp-for="StockQuantity">庫存數量</label>
+    <input asp-for="StockQuantity" class="form-control" type="number" min="0" />
+    <span asp-validation-for="StockQuantity" class="validation"></span>
+</div>

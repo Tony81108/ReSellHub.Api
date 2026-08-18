@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - ReSellHub</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="market-header">
+        <div class="container utility-nav">
+            <span>讓好物找到新主人</span>
+            <a asp-controller="ProductManagement" asp-action="Index">賣家管理</a>
+        </div>
+        <div class="container market-nav">
+            <a class="market-brand" asp-controller="Store" asp-action="Index"><span class="brand-bag">R</span> ReSellHub</a>
+            <form class="header-search" asp-controller="Store" asp-action="Index" method="get">
+                <input name="keyword" value="@ViewBag.Keyword" placeholder="搜尋二手商品" aria-label="搜尋商品" />
+                <button type="submit">搜尋</button>
+            </form>
+            <a class="cart-link" asp-controller="Store" asp-action="Index" aria-label="購物車">🛒</a>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        @RenderBody()
+    </main>
+
+    <footer class="footer">
+        <div class="container">ReSellHub · 安心尋寶，延續好物價值</div>
+    </footer>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

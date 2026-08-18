@@ -1,0 +1,64 @@
+@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "商品列表";
+}
+
+<div class="page-header">
+    <div>
+        <p class="eyebrow">PRODUCT MANAGEMENT</p>
+        <h1>商品列表</h1>
+        <p class="muted">集中管理你的二手商品、成本、售價與庫存。</p>
+    </div>
+    <a class="button primary" asp-action="Create">＋ 新增商品</a>
+</div>
+
+@if (TempData["SuccessMessage"] is string message)
+{
+    <div class="alert success">@message</div>
+}
+
+@if (!Model.Any())
+{
+    <section class="empty-state">
+        <div class="empty-icon">📦</div>
+        <h2>目前還沒有商品</h2>
+        <p>先建立第一筆商品，開始管理你的二手販售清單。</p>
+        <a class="button primary" asp-action="Create">新增第一筆商品</a>
+    </section>
+}
+else
+{
+    <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>商品名稱</th>
+                    <th>分類</th>
+                    <th class="number">成本</th>
+                    <th class="number">售價</th>
+                    <th class="number">預估毛利</th>
+                    <th class="number">庫存</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><strong>@item.Name</strong><div class="item-id">#@item.Id</div></td>
+                    <td>@(item.Category?.Name ?? "其他好物")</td>
+                    <td class="number">NT$ @item.CostPrice.ToString("N0")</td>
+                    <td class="number price">NT$ @item.SellingPrice.ToString("N0")</td>
+                    <td class="number">NT$ @((item.SellingPrice - item.CostPrice).ToString("N0"))</td>
+                    <td class="number"><span class="stock">@item.StockQuantity</span></td>
+                    <td class="actions">
+                        <a asp-action="Details" asp-route-id="@item.Id">查看</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id">編輯</a>
+                        <a class="danger-link" asp-action="Delete" asp-route-id="@item.Id">刪除</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}
